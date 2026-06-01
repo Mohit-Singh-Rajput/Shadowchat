@@ -1,0 +1,70 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                  String   @id @default(cuid())
+  username            String   @unique
+  password            String
+  publicKey           String   @default("")
+  avatar              String   @default("")
+  isOnline            Boolean  @default(false)
+  lastSeen            DateTime @default(now())
+  sessionId           String   @default("")
+  defaultDestructTime Int      @default(0)
+  theme               String   @default("light")
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  sentMessages     Message[]  @relation("MessageSender")
+  receivedMessages Message[]  @relation("MessageReceiver")
+  rooms            ChatRoom[] @relation("RoomParticipants")
+  createdRooms     ChatRoom[] @relation("RoomCreator")
+}
+
+model ChatRoom {
+  id            String   @id @default(cuid())
+  roomId        String   @unique @default(cuid())
+  name          String   @default("")
+  isPrivate     Boolean  @default(true)
+  lastMessage   String   @default("")
+  lastMessageAt DateTime @default(now())
+  createdById   String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  createdBy    User?     @relation("RoomCreator", fields: [createdById], references: [id], onDelete: SetNull)
+  participants User[]    @relation("RoomParticipants")
+  messages     Message[]
+
+  @@index([lastMessageAt])
+}
+
+model Message {
+  id               String    @id @default(cuid())
+  senderId         String
+  receiverId       String?
+  roomId           String
+  encryptedMessage String
+  iv               String
+  selfDestructTime Int       @default(0)
+  isRead           Boolean   @default(false)
+  readAt           DateTime?
+  isDestructed     Boolean   @default(false)
+  destructAt       DateTime?
+  messageType      String    @default("text")
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  sender   User     @relation("MessageSender", fields: [senderId], references: [id], onDelete: Cascade)
+  receiver User?    @relation("MessageReceiver", fields: [receiverId], references: [id], onDelete: SetNull)
+  room     ChatRoom @relation(fields: [roomId], references: [roomId], onDelete: Cascade)
+
+  @@index([roomId, createdAt])
+  @@index([destructAt])
+}

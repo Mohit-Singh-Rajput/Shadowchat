@@ -1,0 +1,137 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: linear-gradient(135deg, #FCE4EC 0%, #FFF0F5 50%, #FCE4EC 100%);
+    min-height: 100vh;
+    color: #2d2d2d;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #FCE4EC;
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #F48FB1;
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #EC407A;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-white/70 backdrop-blur-md border border-pink-100 rounded-2xl shadow-glass;
+  }
+
+  .glass-card-dark {
+    @apply bg-white/50 backdrop-blur-lg border border-pink-200 rounded-2xl shadow-pink-md;
+  }
+
+  .btn-primary {
+    @apply bg-gradient-to-r from-pink-400 to-pink-500 text-white font-semibold px-6 py-3 rounded-xl
+           hover:from-pink-500 hover:to-pink-600 transition-all duration-200 shadow-pink-sm
+           hover:shadow-pink-md active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-secondary {
+    @apply bg-white text-pink-500 font-semibold px-6 py-3 rounded-xl border-2 border-pink-200
+           hover:bg-pink-50 hover:border-pink-300 transition-all duration-200 active:scale-95;
+  }
+
+  .btn-ghost {
+    @apply text-pink-500 font-medium px-4 py-2 rounded-xl hover:bg-pink-50 transition-all duration-200;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-3 bg-white/80 border border-pink-200 rounded-xl text-gray-700
+           placeholder-pink-300 focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-transparent
+           transition-all duration-200;
+  }
+
+  .sidebar-item {
+    @apply flex items-center gap-3 px-4 py-3 rounded-xl cursor-pointer transition-all duration-200
+           hover:bg-pink-50 text-gray-600 hover:text-pink-600;
+  }
+
+  .sidebar-item-active {
+    @apply bg-pink-100 text-pink-600 font-medium;
+  }
+
+  .message-bubble-sent {
+    @apply bg-gradient-to-br from-pink-400 to-pink-500 text-white rounded-2xl rounded-br-sm
+           px-4 py-2.5 max-w-xs shadow-pink-sm;
+  }
+
+  .message-bubble-received {
+    @apply bg-white text-gray-700 rounded-2xl rounded-bl-sm px-4 py-2.5 max-w-xs
+           shadow-sm border border-pink-100;
+  }
+
+  .online-dot {
+    @apply w-2.5 h-2.5 bg-green-400 rounded-full border-2 border-white;
+  }
+
+  .offline-dot {
+    @apply w-2.5 h-2.5 bg-gray-300 rounded-full border-2 border-white;
+  }
+}
+
+/* Typing indicator dots */
+.typing-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #F48FB1;
+  animation: typingBounce 1.4s infinite ease-in-out;
+}
+
+.typing-dot:nth-child(1) { animation-delay: 0s; }
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes typingBounce {
+  0%, 60%, 100% { transform: translateY(0); }
+  30% { transform: translateY(-8px); }
+}
+
+/* Destruct animation */
+.message-destructing {
+  animation: destructAnim 0.8s ease-in forwards;
+}
+
+@keyframes destructAnim {
+  0% { opacity: 1; transform: scale(1); filter: blur(0); }
+  40% { opacity: 0.7; transform: scale(1.03); filter: blur(1px); }
+  100% { opacity: 0; transform: scale(0.7); filter: blur(6px); }
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #EC407A, #F48FB1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Glow effect */
+.pink-glow {
+  box-shadow: 0 0 20px rgba(236, 64, 122, 0.3);
+}
