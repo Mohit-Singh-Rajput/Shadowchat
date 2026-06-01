@@ -73,6 +73,3 @@ npm run dev
 cd shadowchat
 npm run dev
 ```
-
-## 🎓 Academic Context
-This project was initially conceptualized and documented as a Bachelor of Computer Application degree project by Kritty Samixha at Usha Martin University.
